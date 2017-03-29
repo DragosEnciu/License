@@ -1,0 +1,155 @@
+fileFormatVersion: 2
+guid: a8e7d3df9659694419220d6b340efa89
+timeCreated: 1489958953
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: antebrR
+    100004: antebrS
+    100006: Armature
+    100008: bazin
+    100010: BratR
+    100012: bratS
+    100014: cap
+    100016: coloana_sus
+    100018: coloanajos
+    100020: cultist_001
+    100022: dar1
+    100024: dar2
+    100026: dar3
+    100028: deget_M_R
+    100030: degetAS
+    100032: DegetAS2
+    100034: DegetAS3
+    100036: DegetMS
+    100038: degetmS
+    100040: DegetMS2
+    100042: DegetMS3_001
+    100044: DMR
+    100046: DMR2
+    100048: DMR3
+    100050: fatza
+    100052: gat
+    100054: manaR
+    100056: PalmaS
+    100058: picior_jos
+    100060: Piciorsus
+    100062: slopytarget
+    100064: Tentacul_float_R
+    100066: Tentacul_float_S
+    100068: Tentacul_mare_attack
+    100070: tentfatza
+    100072: Umar_R
+    100074: ummar_s
+    400000: //RootNode
+    400002: antebrR
+    400004: antebrS
+    400006: Armature
+    400008: bazin
+    400010: BratR
+    400012: bratS
+    400014: cap
+    400016: coloana_sus
+    400018: coloanajos
+    400020: cultist_001
+    400022: dar1
+    400024: dar2
+    400026: dar3
+    400028: deget_M_R
+    400030: degetAS
+    400032: DegetAS2
+    400034: DegetAS3
+    400036: DegetMS
+    400038: degetmS
+    400040: DegetMS2
+    400042: DegetMS3_001
+    400044: DMR
+    400046: DMR2
+    400048: DMR3
+    400050: fatza
+    400052: gat
+    400054: manaR
+    400056: PalmaS
+    400058: picior_jos
+    400060: Piciorsus
+    400062: slopytarget
+    400064: Tentacul_float_R
+    400066: Tentacul_float_S
+    400068: Tentacul_mare_attack
+    400070: tentfatza
+    400072: Umar_R
+    400074: ummar_s
+    4300000: cultist_001
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: cultist_001
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
