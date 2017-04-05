@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StatTaker : MonoBehaviour
 {
 
-    public GameObject targetedEnemy;
+    public GameObject targetedEnemy = null;
     // Use this for initialization
     private GameObject character = null;
     private Base BaseCharacter = null;
@@ -15,24 +15,28 @@ public class StatTaker : MonoBehaviour
     public Image HPbar;
     public Image APbar;
     public Image ManaBar;
-    public Button Ability1;
-    public Button Ability2;
-    public Button Ability3;
+    public Button[] Abilities;
+    private bool isTargeting = false;
+    private Power CurentAbility;
 
-    //void Start()
-    //{
-     
-    //}
+    List<Base> TargetableAllies = new List<Base>();
 
 
+    void Start()
+    {
+        var heroes = GameObject.FindGameObjectsWithTag("Hero");
+        for (int i=0; i<heroes.Length; i++)
+        {   
+            TargetableAllies.Add(heroes[i].GetComponent<Base>());
+        }
+    }
     void Update()
     {
         ///<summary>
         ///First i tried founding the object by using the RayCast
-        ///didn't worked as planned but tomorrow i will fix this
         /// </summary>
 
-        if (Input.GetMouseButtonDown(0) == true)
+        if (Input.GetMouseButtonDown(0) == true && isTargeting == false)
         {
             RaycastHit[] hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -43,18 +47,40 @@ public class StatTaker : MonoBehaviour
                 {
                     character = hitObject.transform.gameObject;
                     BaseCharacter = character.GetComponent<Base>();
+
+                    for (int i = 0; i < Abilities.Length; i++)
+                    {
+                        Abilities[i].onClick.RemoveAllListeners();
+                    }
+                    for (int i = 0; i < Abilities.Length; i++)
+                    {
+                        Power ability = BaseCharacter.abilities[i];
+                        Abilities[i].onClick.AddListener(delegate { CastAbility(ability); });
+                    }
                     break;
                 }
-               // character = null;
-               // BaseCharacter = null;
+                // character = null;
+                //  BaseCharacter = null;
             }
+        }
+        if (Input.GetMouseButtonDown(0) == true && isTargeting == true)
+        {
+            ChooseTarger();
+            if (targetedEnemy)
+            {
+
+                Base[] a = new Base[] { targetedEnemy.GetComponent<Base>() };
+                CurentAbility.Action(BaseCharacter, a);
+                Message.text = "";
+            }
+            isTargeting = false;
         }
 
 
-        ///<summary>
-        ///Here i set the fill amount for each bar based on the stats of character gameObject 
-        /// </summary>
-        if (character)
+            ///<summary>
+            ///Here i set the fill amount for each bar based on the stats of character gameObject 
+            /// </summary>
+        if (character != null)
         {
             HPbar.enabled = true;
             APbar.enabled = true;
@@ -66,55 +92,69 @@ public class StatTaker : MonoBehaviour
         }
         else
         {
+
             HeroName.text = "";
             HPbar.enabled = false;
             APbar.enabled = false;
             ManaBar.enabled = false;
         }
-        Ability1.onClick.AddListener(() => CastAbility(BaseCharacter.abilities[0]));
-        Ability2.onClick.AddListener(() => CastAbility(BaseCharacter.abilities[1]));
-        Ability3.onClick.AddListener(() => CastAbility(BaseCharacter.abilities[2]));
-
     }
 
+    void ChooseTarger()
+    {
+
+        {
+            RaycastHit[] hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            hit = Physics.RaycastAll(ray);
+            foreach (RaycastHit hitObject in hit)
+            {
+                if (hitObject.transform.tag == "Enemy" )
+                {
+                    targetedEnemy = hitObject.transform.gameObject;
+                    break;
+                }
+            }
+        }
+    }
 
     void CastAbility(Power CastedPower)
     {
-        if(CastedPower.NeededAP < BaseCharacter.get_Mana)
+        if (CastedPower.GetType() == typeof(Taunt) || CastedPower.GetType() == typeof(Buff))
+        {
+            CastedPower.Action(BaseCharacter, TargetableAllies.ToArray());
+            return;
+        }
+        if (CastedPower.NeededMana < BaseCharacter.get_Mana)
         {
             if (CastedPower.NeededAP < BaseCharacter.get_ActionPoints)
             {
                 if (CastedPower.isAoe == false)
                 {
-                    Message.text = " ChooseTarget ";
 
-                    RaycastHit[] hit;
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    hit = Physics.RaycastAll(ray);
-                    foreach (RaycastHit hitObject in hit)
-                    {
-                        if (hitObject.transform.tag == "Enemy")
-                        {
-                            targetedEnemy = hitObject.transform.gameObject;
-                            CastedPower.Action(BaseCharacter, new Base[] { targetedEnemy.GetComponent<Base>() });
-                            break;
-                        }
-                        // CastedPower.Action(BaseCharacter, TestEnemy);
-                    }
+                    Message.text = " ChooseTarget ";
+                    Message.GetComponent<Animator>().Play("Idle", -1, 0f);
+                    isTargeting = true;
+                    CurentAbility = CastedPower;
+                    // CastedPower.Action(BaseCharacter, targetedEnemy);
                 }
-                else
-                { // If it's AOE it should that all the targets automaticly 
-                }
-                  
-}
+            }
             else
             {
-                Message.text = "Not enough Mana";
+                Message.text = "Not enough Action Points";
+                Message.GetComponent<Animator>().Play("FadeOut", -1, 0f);
             }
         }
         else
-        {
-            Message.text = "Not enough Action Points";
+        {   
+            Message.text = "Not enough Mana";
+            Message.GetComponent<Animator>().Play("FadeOut", -1, 0f); 
         }
+        //private delegate void skill1(){CastAbility(Power A)};
     }
 }
+
+
+
+
+    

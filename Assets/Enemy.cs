@@ -6,21 +6,32 @@ using UnityEngine;
 // so i made base inheritance the MonoBehavior class 
 public class Enemy : Base {
     public GameObject target;
-    public float abilityCooldown;  
-
+    public float abilityCooldown;
+    private GameObject[] targets;
     public Enemy()
     {    }
 
    void Start()
     {
-       
+        targets = GameObject.FindGameObjectsWithTag("Hero");
     }
     //Made both functions virtual to be able to modifie it later if needed
     public override void Update()
     {
         base.Update();
+        ChooseTarget();
         if(currentActionPoints > 30 )
-             DoMeeleAttack(50);
+             DoMeeleAttack(25);
+    }
+
+    public void ChooseTarget()
+    {
+        float maxThreat = 0;
+        foreach(GameObject obj in targets)
+        {     
+            if (obj != null && obj.GetComponent<Base>().Threat > maxThreat)
+                target = obj;
+        }
     }
 
     ///<summary>

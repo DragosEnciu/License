@@ -6,6 +6,8 @@ public class Base : MonoBehaviour {
 
     public List<Power> abilities;
     public Stats stats;
+    public Items HeroItem;
+    public Weapons HeroWeapon;
 
     //setting constant modifiers for the fucntion 
     public const float STAMINAMODIFIER = 10;

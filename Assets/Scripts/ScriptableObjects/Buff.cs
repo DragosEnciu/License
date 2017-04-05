@@ -5,9 +5,9 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Special Power/Buff", order = 100001)]
 public class Buff : Power {
-    int effectDuration;
-    float damageMultiplierBonus = 0.5f ; 
-    public virtual void Action(Base caster, Base[] targets)
+    public int effectDuration;
+    public float damageMultiplierBonus = 0.5f ; 
+    public override void Action(Base caster, Base[] targets)
     {
         caster.TakeAction(NeededAP);
         caster.UseMana(NeededMana);

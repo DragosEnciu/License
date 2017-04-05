@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,12 +36,19 @@ public class Power : ScriptableObject
                 caster.Threat = 100;
                 if (isMoving)
                 {
-                    caster.MoveCharacter(targets[0].GetComponent<GameObject>().transform.position);
+                    caster.MoveCharacter(targets[0].transform.position);
+                    foreach (Base i in targets)
+                    {
+                        caster.DoDamage(i, damage);
+                    }
+                    caster.MoveCharacter(caster.transform.position);
                 }
-                foreach (Base i in targets)
-                {
-                    caster.DoDamage(i, damage);
-                }
+                else
+                    foreach (Base i in targets)
+                    {
+                        caster.DoDamage(i, damage);
+
+                    }
             }
         }
         else
@@ -57,12 +63,15 @@ public class Power : ScriptableObject
                 caster.Threat = 100;
                 if (isMoving)
                 {
-                    caster.MoveCharacter(targets[0].GetComponent<GameObject>().transform.position);
+                    caster.MoveCharacter(targets[0].transform.position);
+                    caster.DoDamage(targets[0], damage);
+                    caster.MoveCharacter(caster.transform.position);
                 }
                 caster.DoDamage(targets[0], damage);
+
             }
         }
-        
+
     }
 
 }
