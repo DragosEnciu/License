@@ -120,7 +120,7 @@ public class StatTaker : MonoBehaviour
 
     void CastAbility(Power CastedPower)
     {
-        if (CastedPower.GetType() == typeof(Taunt) || CastedPower.GetType() == typeof(Buff))
+        if (CastedPower.GetType() == typeof(Buff))
         {
             CastedPower.Action(BaseCharacter, TargetableAllies.ToArray());
             return;
@@ -132,6 +132,11 @@ public class StatTaker : MonoBehaviour
                 if (CastedPower.isAoe == false)
                 {
 
+                    if (CastedPower.GetType() == typeof(Taunt))
+                    {
+                        CastedPower.Action(BaseCharacter, TargetableAllies.ToArray());
+                        return;
+                    }
                     Message.text = " ChooseTarget ";
                     Message.GetComponent<Animator>().Play("Idle", -1, 0f);
                     isTargeting = true;
@@ -141,6 +146,7 @@ public class StatTaker : MonoBehaviour
             }
             else
             {
+               
                 Message.text = "Not enough Action Points";
                 Message.GetComponent<Animator>().Play("FadeOut", -1, 0f);
             }

@@ -8,6 +8,8 @@ public class Taunt : Power {
 
     public override void Action(Base caster, Base[] targets)
     {
+        caster.TakeAction(NeededAP);
+        caster.UseMana(NeededMana);
         caster.Threat = 160;
     }
 

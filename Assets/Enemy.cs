@@ -18,19 +18,25 @@ public class Enemy : Base {
     //Made both functions virtual to be able to modifie it later if needed
     public override void Update()
     {
+        
         base.Update();
-        ChooseTarget();
-        if(currentActionPoints > 30 )
-             DoMeeleAttack(25);
+        if (currentActionPoints > 30)
+        {
+            ChooseTarget();
+            DoMeeleAttack(25);
+        }
     }
 
     public void ChooseTarget()
     {
         float maxThreat = 0;
         foreach(GameObject obj in targets)
-        {     
+        {
             if (obj != null && obj.GetComponent<Base>().Threat > maxThreat)
+            {
                 target = obj;
+                maxThreat = obj.GetComponent<Base>().Threat;
+            }
         }
     }
 
