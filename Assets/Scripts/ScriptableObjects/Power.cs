@@ -20,7 +20,7 @@ public class Power : ScriptableObject
     // i need to add Threat to the heal 
     public virtual void Action(Base caster, Base[] targets)
     {
-        float damage = BaseDamage + caster.stats.Strength * STRDamageModifier + caster.stats.Intellect * INTDamageModifier;
+        float damage = BaseDamage + caster.Strength * STRDamageModifier + caster.Intellect * INTDamageModifier;
         caster.UseMana(NeededMana);
         caster.TakeAction(NeededAP);
         if (isAoe)

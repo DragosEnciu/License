@@ -44,12 +44,75 @@ public class Base : MonoBehaviour {
 
     //Getting the values for the unsettables
     public float get_Hp { get { return HP; } }
+
+
     public float get_Mana { get { return MANA; } }
     public float get_ActionPoints { get { return currentActionPoints; } }
 
+    public float Strength
+    {
+        get
+        {
+            float strength = stats.Strength;
+            if (HeroItem != null)
+                strength += HeroItem.Strength;
+            if (HeroWeapon != null)
+                strength += HeroWeapon.Strength;
+            return strength;
+        }
+    }
+    public float Stamina
+    {
+        get
+        {
+            float stamina = stats.Stamina;
+            if(HeroItem != null)
+                stamina += HeroItem.Stamina;
+            if (HeroWeapon != null)
+                stamina += HeroWeapon.Stamina;
+            return stamina;
+        }
+    }
+    public float Endurance
+    {
+        get
+        {
+            float endurance = stats.Endurance;
+            if (HeroItem != null)
+                endurance += HeroItem.Endurance;
+            if (HeroWeapon != null)
+                endurance += HeroWeapon.Endurance;
+            return endurance;
+        }
+    }
+    public float Intellect
+    {
+        get
+        {
+            float intellect = stats.Intellect;
+            if (HeroItem != null)
+                intellect += HeroItem.Intellect;
+            if (HeroWeapon != null)
+                intellect += HeroWeapon.Intellect;
+            return intellect;
+        }
+    }
+    public float Speed
+    {
+        get
+        {
+            float speed = stats.Speed;
+            if (HeroItem != null)
+                speed += HeroItem.Speed;
+            if(HeroWeapon != null)
+                speed += HeroWeapon.Speed;
+            return speed;
+        }
+    }
 
-	//setting values after formulas 
-	public void TakeDamage ( float damage )
+
+    //setting values after formulas 
+    public void TakeDamage ( float damage )
 	{
 		HP -= damage;
         if (HP < 0)
@@ -76,7 +139,7 @@ public class Base : MonoBehaviour {
     public virtual void Update()
     {// incressing the action points for the action to take place 
         if (currentActionPoints <= MAXACTIONPOINTS)
-            currentActionPoints += Time.deltaTime * stats.Speed / 3;
+            currentActionPoints += Time.deltaTime * Speed / 3;
 
         foreach (CharacterAction action in actionQueue.ToArray())
         {
@@ -126,18 +189,12 @@ public class Base : MonoBehaviour {
     /// </summary>
     public void SetMaxHP()
     {
-        MaxHP = stats.Stamina * STAMINAMODIFIER;
-        if (HeroItem != null)
-            MaxHP += HeroItem.Stamina * STAMINAMODIFIER;
-        if (HeroWeapon != null)
-            MaxHP += HeroWeapon.Stamina * STAMINAMODIFIER;
+        MaxHP = Stamina * STAMINAMODIFIER;
+
     }
     public void SetMaxMANA()
     {
-        MaxMANA = stats.Endurance * ENDURANCEMODIFIER;
-        if (HeroItem != null)
-            MaxMANA += HeroItem.Endurance * ENDURANCEMODIFIER;
-        if (HeroWeapon != null)
-            MaxMANA += HeroWeapon.Endurance * ENDURANCEMODIFIER;
+        MaxMANA = Endurance * ENDURANCEMODIFIER;
+
     }
 }

@@ -98,9 +98,9 @@ public class StatTaker : MonoBehaviour
             APbar.enabled = true;
             ManaBar.enabled = true;
             HeroName.text = BaseCharacter.ClassName;
-            HPbar.fillAmount = BaseCharacter.get_Hp / (BaseCharacter.stats.Stamina * Base.STAMINAMODIFIER);
+            HPbar.fillAmount = BaseCharacter.get_Hp / (BaseCharacter.Stamina * Base.STAMINAMODIFIER);
             APbar.fillAmount = BaseCharacter.get_ActionPoints / (Base.MAXACTIONPOINTS);
-            ManaBar.fillAmount = BaseCharacter.get_Mana / (BaseCharacter.stats.Endurance * Base.ENDURANCEMODIFIER);
+            ManaBar.fillAmount = BaseCharacter.get_Mana / (BaseCharacter.Endurance * Base.ENDURANCEMODIFIER);
         }
         else
         {
