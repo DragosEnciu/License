@@ -11,28 +11,39 @@ public class Enemy : Base {
     public Enemy()
     {    }
 
-   void Start()
+   public override void Start()
     {
-        targets = GameObject.FindGameObjectsWithTag("Hero");
+        base.Start();
+        targets = GameObject.FindGameObjectsWithTag("Hero");    
     }
     //Made both functions virtual to be able to modifie it later if needed
     public override void Update()
     {
-        
+
         base.Update();
-        if (currentActionPoints > 30)
+        if (get_Hp > (MaxHP * 0.3))
+        {if (currentActionPoints > 30)
+            {
+                ChooseTarget();
+                DoMeeleAttack(25);
+            }
+        }
+        else
         {
-            ChooseTarget();
-            DoMeeleAttack(25);
+            if(currentActionPoints > 60)
+            {
+                DoAbility(100);
+            }
         }
     }
 
     public void ChooseTarget()
     {
         float maxThreat = 0;
+        target = null;
         foreach(GameObject obj in targets)
         {
-            if (obj != null && obj.GetComponent<Base>().Threat > maxThreat)
+            if (obj != null && obj.GetComponent<Base>().Threat >= maxThreat)
             {
                 target = obj;
                 maxThreat = obj.GetComponent<Base>().Threat;
@@ -40,15 +51,10 @@ public class Enemy : Base {
         }
     }
 
-    ///<summary>
-    /// temporary target chosen by the enemy until we figur out how to chose a enemy
-    // if(target.hp < 30% * ) 
-    ///  target.TakeDamage (damage)
-    /// else 
-    ///  randome chose a target
-    ///</summary> 
     public virtual void DoMeeleAttack(float damage)
     {
+        if (!target)
+            return;
         MoveCharacter(target.transform.position);
         TakeAction(30);
         DoDamage(target.GetComponent<Base>(),damage);
@@ -60,9 +66,9 @@ public class Enemy : Base {
     ///A self heal ability for the enemy
     ///made a getter function for the HP and the Mana values in BASE script 
     /// </summary>
-    public virtual void DoAbility(float damge)
+    public virtual void DoAbility(float damage)
     {
-      
-
+        TakeAction(60);
+        DoDamage(this, -damage);
     }
 }

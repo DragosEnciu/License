@@ -20,6 +20,7 @@ public class StatTaker : MonoBehaviour
     private Power CurentAbility;
 
     List<Base> TargetableAllies = new List<Base>();
+    List<Base> TargetableEnemyes = new List<Base>();
 
 
     void Start()
@@ -32,6 +33,17 @@ public class StatTaker : MonoBehaviour
     }
     void Update()
     {
+        if (GameObject.FindGameObjectWithTag("Hero")==null)
+        {
+            Message.text = "You Lose";
+            Message.GetComponent<Animator>().Play("Idle", -1, 0f);
+        }
+        if( GameObject.FindGameObjectWithTag("Enemy") == null )
+        {
+            Message.text = "You Win";
+            Message.GetComponent<Animator>().Play("Idle", -1, 0f);
+        }
+
         ///<summary>
         ///First i tried founding the object by using the RayCast
         /// </summary>

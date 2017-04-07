@@ -67,7 +67,10 @@ public class Power : ScriptableObject
                     caster.DoDamage(targets[0], damage);
                     caster.MoveCharacter(caster.transform.position);
                 }
-                caster.DoDamage(targets[0], damage);
+                else
+                {
+                    caster.DoDamage(targets[0], damage);
+                }
 
             }
         }

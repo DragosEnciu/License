@@ -18,12 +18,14 @@ public class Base : MonoBehaviour {
     public string ClassName;
     public string ClassDescription;
 
-    public float Threat;
+    public float Threat = 100;
     // calculable stats
     [SerializeField]
     private float HP;
+    public float MaxHP;
     [SerializeField]
     private float MANA;
+    public float MaxMANA;
     [SerializeField]
     protected float currentActionPoints;
 
@@ -31,10 +33,13 @@ public class Base : MonoBehaviour {
 
     public List<CharacterAction> actionQueue = new List<CharacterAction>();
 
-    private void Start()
+    public virtual void Start()
     {
-        HP = stats.Stamina * STAMINAMODIFIER;
-        MANA = stats.Endurance * ENDURANCEMODIFIER;
+        SetMaxHP();
+        SetMaxMANA();
+
+        HP = MaxHP ;
+        MANA = MaxMANA;
     }
 
     //Getting the values for the unsettables
@@ -47,6 +52,10 @@ public class Base : MonoBehaviour {
 	public void TakeDamage ( float damage )
 	{
 		HP -= damage;
+        if (HP < 0)
+            HP = 0;
+        if (HP > MaxHP)
+            HP = MaxHP;
 	}
 	public void UseMana(float abilityCost)
 	{
@@ -76,6 +85,8 @@ public class Base : MonoBehaviour {
         }
         if (actionQueue.Count > 0)
             actionQueue[0].Update(Time.deltaTime);
+        if (HP <= 0)
+            Destroy(gameObject);
     }
 
     public void MoveCharacter(Vector3 position)
@@ -107,5 +118,26 @@ public class Base : MonoBehaviour {
                 buff.DecreaseDuration();
             }
         }
+    }
+
+
+    /// <summary>
+    /// Setting the Maximum values for the HP and the Mana the character can have
+    /// </summary>
+    public void SetMaxHP()
+    {
+        MaxHP = stats.Stamina * STAMINAMODIFIER;
+        if (HeroItem != null)
+            MaxHP += HeroItem.Stamina * STAMINAMODIFIER;
+        if (HeroWeapon != null)
+            MaxHP += HeroWeapon.Stamina * STAMINAMODIFIER;
+    }
+    public void SetMaxMANA()
+    {
+        MaxMANA = stats.Endurance * ENDURANCEMODIFIER;
+        if (HeroItem != null)
+            MaxMANA += HeroItem.Endurance * ENDURANCEMODIFIER;
+        if (HeroWeapon != null)
+            MaxMANA += HeroWeapon.Endurance * ENDURANCEMODIFIER;
     }
 }
