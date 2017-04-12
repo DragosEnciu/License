@@ -12,7 +12,7 @@ public class Move : MonoBehaviour {
 
 	void Start()
 	{			
-		newPosition = this.transform.position;
+	newPosition = this.transform.position;
 	}
 
 	void Update () {

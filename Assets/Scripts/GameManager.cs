@@ -13,15 +13,20 @@ public class GameManager : Singleton<GameManager>{
     private GameState gameState;
     public GameObject PauseMenu;
     public GameObject CharacterInScene;
-    public Vector3 ExplorationPosition = new Vector3( 0, 0, 0);
+    public Vector3 ExplorationPosition;
     public Text Message;
     public GameObject PrefabTextBox;
+    public GameObject Conflict;
+    public string ConflictName;
+    public bool isWin;
 
     public void Start()
     {
         DontDestroyOnLoad(gameObject);
-        EventManager.Instance.AddListener<EventCombat>(EventCombat_Handler);
-        EventManager.Instance.AddListener<EventStartExploration>(EventExploration_Hendler);
+        ExplorationPosition = new Vector3(0, -0.5f, 23);
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        EventManager.Instance.AddListenerOnce<EventCombat>(EventCombat_Handler);
+        EventManager.Instance.AddListenerOnce<EventStartExploration>(EventExploration_Hendler);
     }
     public void Update()
     {
@@ -29,7 +34,7 @@ public class GameManager : Singleton<GameManager>{
         {
             case GameState.GameState_Exploration:
                 {
-                    
+                   
                     break;
                 }
             case GameState.GameState_StartMenu:
@@ -37,15 +42,12 @@ public class GameManager : Singleton<GameManager>{
                     //TO DO Start Menu Scene 
                     // Load
                     //On press default position spawn in first scene
-            
-
                     break;
             }
            
             case GameState.GameState_Combat:
                 {
                     CombatStatus();
-
                     break;
                 }
             case GameState.GameState_Pause:
@@ -58,27 +60,30 @@ public class GameManager : Singleton<GameManager>{
    public void EventCombat_Handler(GameEvent e)
     {
 
+        ExplorationPosition = CharacterInScene.transform.position;
         Application.LoadLevel("Combat");
+
         List<GameObject> SceneCharacters = ((EventCombat)e).Characters;
+        ConflictName = ((EventCombat)e).Conflict;
         //Spawn(SceneCharacters);
         //TO DO 
         gameState = GameState.GameState_Combat;
     }
     public void CombatStatus()
     {
-        
-        Message = Instantiate(PrefabTextBox).GetComponentInChildren<Text>();
-        
         if (GameObject.FindGameObjectWithTag("Hero") == null)
         {
             Message.text = "You Lose";
             Message.GetComponent<Animator>().Play("Idle", -1, 0f);
+            isWin = false;
             EventManager.Instance.TriggerEvent(new EventStartExploration());
+            
         }
         if (GameObject.FindGameObjectWithTag("Enemy") == null)
         {
             Message.text = "You Win";
             Message.GetComponent<Animator>().Play("Idle", -1, 0f);
+            isWin = true;
             EventManager.Instance.TriggerEvent(new EventStartExploration());
         }
 
@@ -87,7 +92,30 @@ public class GameManager : Singleton<GameManager>{
     {
         
         Application.LoadLevel("Exploration");
-        EventManager.Instance.TriggerEvent(new EventStartExploration());
         gameState = GameState.GameState_Exploration;
+    }
+    private void OnLevelFinishedLoading(Scene a, LoadSceneMode lsm)
+    {
+        if (a.name == "Exploration")
+        {
+
+            if(isWin == false)
+            {
+                ExplorationPosition = new Vector3(0, 0.5f, -23);
+            }
+            else
+            {
+                Conflict = GameObject.Find(ConflictName);
+                Conflict.SetActive(false);
+            }
+            CharacterInScene = GameObject.FindGameObjectWithTag("Hero");
+            CharacterInScene.transform.position = ExplorationPosition;
+
+        }
+        if(a.name == "Combat")
+        {
+            Message = Instantiate(PrefabTextBox).GetComponentInChildren<Text>();
+            Message.text = "";
+        }
     }
 }

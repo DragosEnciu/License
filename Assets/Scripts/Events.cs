@@ -10,9 +10,11 @@ public class EventStartMenu : GameEvent
 public class EventCombat : GameEvent
 {
     public List<GameObject> Characters = new List<GameObject>();
-    public EventCombat(List<GameObject> CombatCharacters)
+    public string Conflict;
+    public EventCombat(List<GameObject> CombatCharacters, string ConflictName)
     {
         Characters = CombatCharacters;
+        Conflict = ConflictName;
     }
 }
 public class EventStartExploration : GameEvent

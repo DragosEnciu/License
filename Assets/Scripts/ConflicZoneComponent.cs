@@ -25,9 +25,12 @@ public class ConflicZoneComponent : MonoBehaviour {
         EnemyCharacter.transform.Translate(AttackPosition * Time.deltaTime);
         if (other.gameObject.tag == "Hero")
         {
-            EventManager.Instance.TriggerEvent(new EventCombat(new List<GameObject>()));
+            
+            EventManager.Instance.TriggerEvent(new EventCombat(new List<GameObject>(), this.name));
+            
+
         }
        // EnemyCharacter.transform.position = Vector3.MoveTowards(EnemyCharacter.transform.position,AttackPosition, 10 * Time.deltaTime);
-        //other.gameObject.transform.position = new Vector3(0,0,0);
+       //other.gameObject.transform.position = new Vector3(0,0,0);
     }
 }
