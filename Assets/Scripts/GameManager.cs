@@ -14,19 +14,30 @@ public class GameManager : Singleton<GameManager>{
     public GameObject PauseMenu;
     public GameObject CharacterInScene;
     public Vector3 ExplorationPosition;
+    public Vector3 Nord;
+    public Vector3 Sud;
+    public Vector3 Est;
+    public Vector3 West;
     public Text Message;
     public GameObject PrefabTextBox;
     public GameObject Conflict;
     public string ConflictName;
     public bool isWin;
+    public string LoadedScene;
+    public EventStartExploration.Position cardinalPosition;
 
     public void Start()
     {
         DontDestroyOnLoad(gameObject);
-        ExplorationPosition = new Vector3(0, -0.5f, 23);
+        Sud = new Vector3(0, -0.5f, -23);
+        Nord = new Vector3(0, -0.5f, 21);
+        West = new Vector3(19, -0.5f, 0);
+        Est = new Vector3(-19, -0.5f, 0);
+        //ExplorationPosition = new Vector3(0, -0.5f, 23);
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
         EventManager.Instance.AddListenerOnce<EventCombat>(EventCombat_Handler);
         EventManager.Instance.AddListenerOnce<EventStartExploration>(EventExploration_Hendler);
+      
     }
     public void Update()
     {
@@ -59,7 +70,7 @@ public class GameManager : Singleton<GameManager>{
     }
    public void EventCombat_Handler(GameEvent e)
     {
-
+        LoadedScene = SceneManager.GetActiveScene().name;
         ExplorationPosition = CharacterInScene.transform.position;
         Application.LoadLevel("Combat");
 
@@ -76,7 +87,7 @@ public class GameManager : Singleton<GameManager>{
             Message.text = "You Lose";
             Message.GetComponent<Animator>().Play("Idle", -1, 0f);
             isWin = false;
-            EventManager.Instance.TriggerEvent(new EventStartExploration());
+            EventManager.Instance.TriggerEvent(new EventStartExploration(LoadedScene, EventStartExploration.Position.S));
             
         }
         if (GameObject.FindGameObjectWithTag("Enemy") == null)
@@ -84,29 +95,30 @@ public class GameManager : Singleton<GameManager>{
             Message.text = "You Win";
             Message.GetComponent<Animator>().Play("Idle", -1, 0f);
             isWin = true;
-            EventManager.Instance.TriggerEvent(new EventStartExploration());
+            EventManager.Instance.TriggerEvent(new EventStartExploration(LoadedScene, EventStartExploration.Position.Special));
         }
 
     }
     public void EventExploration_Hendler(GameEvent e)
     {
-        
-        Application.LoadLevel("Exploration");
+        cardinalPosition = ((EventStartExploration)e).pos;
+        Application.LoadLevel(((EventStartExploration)e).LoadedScene);
         gameState = GameState.GameState_Exploration;
+        
     }
     private void OnLevelFinishedLoading(Scene a, LoadSceneMode lsm)
     {
-        if (a.name == "Exploration")
+        if (a.name == "Exploration1" || a.name == "Exploration2" || a.name == "Exploration3" || a.name == "Exploration4")
         {
-
-            if(isWin == false)
+            if (isWin == false)
             {
-                ExplorationPosition = new Vector3(0, 0.5f, -23);
+                ExplorationPosition = GetPosition(cardinalPosition);
             }
             else
             {
                 Conflict = GameObject.Find(ConflictName);
                 Conflict.SetActive(false);
+                isWin = false; 
             }
             CharacterInScene = GameObject.FindGameObjectWithTag("Hero");
             CharacterInScene.transform.position = ExplorationPosition;
@@ -117,5 +129,22 @@ public class GameManager : Singleton<GameManager>{
             Message = Instantiate(PrefabTextBox).GetComponentInChildren<Text>();
             Message.text = "";
         }
+    }
+    public Vector3 GetPosition(EventStartExploration.Position a)
+    {
+        switch (a)
+        {
+            case EventStartExploration.Position.N :
+                return Nord;
+            case EventStartExploration.Position.S:
+                return Sud;
+            case EventStartExploration.Position.E:
+                return Est;
+            case EventStartExploration.Position.W:
+                return West;
+            case EventStartExploration.Position.Special:
+                return ExplorationPosition;
+        }
+        return new Vector3(0, 0, 0);
     }
 }

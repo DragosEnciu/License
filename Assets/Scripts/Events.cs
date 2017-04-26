@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class EventStartMenu : GameEvent
 {
@@ -19,7 +19,14 @@ public class EventCombat : GameEvent
 }
 public class EventStartExploration : GameEvent
 {
-
+    public string LoadedScene;
+    public enum Position {N,S,E,W,Special}
+    public Position pos;
+    public EventStartExploration(string ExploredScene,Position a )
+    {
+        LoadedScene = ExploredScene;
+        pos = a;
+    }
 }
 public class EventStopExploration : GameEvent
 {

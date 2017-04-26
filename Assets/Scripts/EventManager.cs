@@ -9,7 +9,6 @@ public class EventManager : MonoBehaviour {
     public float QueueProcessTime = 0.0f;
     private static EventManager s_Instance = null;
     private Queue m_eventQueue = new Queue();
-
     public delegate void EventDelegate<T> (T e) where T : GameEvent;
     private delegate void EventDelegate (GameEvent e);
 

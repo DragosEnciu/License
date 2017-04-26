@@ -13,16 +13,12 @@ public class ConflicZoneComponent : MonoBehaviour {
        // renderer.enable = false;
        //GetComponent<MeshRenderer>().enabled = false;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private void OnTriggerEnter(Collider other)
     {
         AttackPosition = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y,other.gameObject.transform.position.z);
         EnemyCharacter.transform.Translate(AttackPosition * Time.deltaTime);
+
         if (other.gameObject.tag == "Hero")
         {
             
