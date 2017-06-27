@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class TransitioZone : MonoBehaviour {
     
-    public Object scene;
+    public string scene;
     public EventStartExploration.Position spawnPoint;
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Hero")
         {
-            EventManager.Instance.TriggerEvent(new EventStartExploration(scene.name, spawnPoint));
+            EventManager.Instance.TriggerEvent(new EventStartExploration(scene, spawnPoint));
         }
     }
 }

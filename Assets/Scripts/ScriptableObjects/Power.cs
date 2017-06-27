@@ -14,10 +14,6 @@ public class Power : ScriptableObject
     public float STRDamageModifier;
     public float INTDamageModifier;
 
-
-
-    // I need to modifiy the Base to generate automatic the threat at the start of the fight and after that 
-    // i need to add Threat to the heal 
     public virtual void Action(Base caster, Base[] targets)
     {
         float damage = BaseDamage + caster.Strength * STRDamageModifier + caster.Intellect * INTDamageModifier;

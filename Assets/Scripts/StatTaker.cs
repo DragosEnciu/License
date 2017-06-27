@@ -62,8 +62,7 @@ public class StatTaker : MonoBehaviour
                     }
                     break;
                 }
-                // character = null;
-                //  BaseCharacter = null;
+                
             }
         }
         if (Input.GetMouseButtonDown(0) == true && isTargeting == true)

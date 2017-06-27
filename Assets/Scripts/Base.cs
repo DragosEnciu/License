@@ -41,6 +41,16 @@ public class Base : MonoBehaviour {
         HP = MaxHP ;
         MANA = MaxMANA;
     }
+    public void SetMaxHP()
+    {
+        MaxHP = Stamina * STAMINAMODIFIER;
+
+    }
+    public void SetMaxMANA()
+    {
+        MaxMANA = Endurance * ENDURANCEMODIFIER;
+
+    }
 
     //Getting the values for the unsettables
     public float get_Hp { get { return HP; } }
@@ -111,7 +121,7 @@ public class Base : MonoBehaviour {
     }
 
 
-    //setting values after formulas 
+  
     public void TakeDamage ( float damage )
 	{
 		HP -= damage;
@@ -124,17 +134,12 @@ public class Base : MonoBehaviour {
 	{
 		MANA -= abilityCost;
 	}
-
-
-    /// <summary>
-    ///After using a ability or getting damaged the action bar will decress using this function
-    /// </summary>
-    /// <param name="action">action should be 30 , 60 or 90 acording to GDD </param>
-
     public void TakeAction (float action)
     {
         currentActionPoints -= action;
     }
+
+
 
     public virtual void Update()
     {// incressing the action points for the action to take place 
@@ -187,14 +192,5 @@ public class Base : MonoBehaviour {
     /// <summary>
     /// Setting the Maximum values for the HP and the Mana the character can have
     /// </summary>
-    public void SetMaxHP()
-    {
-        MaxHP = Stamina * STAMINAMODIFIER;
-
-    }
-    public void SetMaxMANA()
-    {
-        MaxMANA = Endurance * ENDURANCEMODIFIER;
-
-    }
+   
 }

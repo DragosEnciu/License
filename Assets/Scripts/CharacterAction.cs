@@ -28,25 +28,7 @@ public class AttackAction : CharacterAction
     }
 
 }
-public class HealAction : CharacterAction
-{
-    private Base target;
-    private float heal;
-    public HealAction(Base tar, float hl) { target = tar; hl = heal; }
-    public override void Update(float dt)
-    {
 
-
-        if (!target || !owner)
-        {
-            finished = true;
-            return;
-        }
-        target.TakeDamage(-heal);
-        finished = true;
-    }
-
-}
 
 public class BuffAction : CharacterAction
 {
@@ -95,3 +77,22 @@ public class MovementAction : CharacterAction
     }
 }
 
+public class HealAction : CharacterAction
+{
+    private Base target;
+    private float heal;
+    public HealAction(Base tar, float hl) { target = tar; hl = heal; }
+    public override void Update(float dt)
+    {
+
+
+        if (!target || !owner)
+        {
+            finished = true;
+            return;
+        }
+        target.TakeDamage(-heal);
+        finished = true;
+    }
+
+}
