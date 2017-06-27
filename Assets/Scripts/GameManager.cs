@@ -49,7 +49,9 @@ public class GameManager : Singleton<GameManager>{
     }
     public void Update()
     {
-        switch(gameState)
+        
+      
+        switch (gameState)
         {
             case GameState.GameState_Exploration:
                 {
@@ -137,8 +139,10 @@ public class GameManager : Singleton<GameManager>{
     }
     private void OnLevelFinishedLoading(Scene a, LoadSceneMode lsm)
     {
+        if (combat4 == true && a.name != "End")
+            Application.LoadLevel("End");
         //Initialization
-        if(a.name != "Combat")
+        if (a.name != "Combat")
             InstancedHero = Instantiate(CharacterInScene);
         Sud = new Vector3(0, -0.5f, -23);
         Nord = new Vector3(0, -0.5f, 21);
